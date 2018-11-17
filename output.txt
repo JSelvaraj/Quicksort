@@ -1,0 +1,80 @@
+#0 Time Taken: 10  Swaps: 10767
+
+#1 Time Taken: 1  Swaps: 10767
+
+#2 Time Taken: 1  Swaps: 10767
+
+#3 Time Taken: 1  Swaps: 10767
+
+#4 Time Taken: 1  Swaps: 10767
+
+#5 Time Taken: 1  Swaps: 10767
+
+#6 Time Taken: 1  Swaps: 10767
+
+#7 Time Taken: 1  Swaps: 10767
+
+#8 Time Taken: 1  Swaps: 10767
+
+#9 Time Taken: 1  Swaps: 10767
+
+#10 Time Taken: 1  Swaps: 10767
+
+#11 Time Taken: 1  Swaps: 10767
+
+#12 Time Taken: 1  Swaps: 10767
+
+#13 Time Taken: 1  Swaps: 10767
+
+#14 Time Taken: 7  Swaps: 10767
+
+#15 Time Taken: 1  Swaps: 10767
+
+#16 Time Taken: 4  Swaps: 10767
+
+#17 Time Taken: 1  Swaps: 10767
+
+#18 Time Taken: 1  Swaps: 10767
+
+#19 Time Taken: 0  Swaps: 10767
+
+#20 Time Taken: 1  Swaps: 10767
+
+#21 Time Taken: 1  Swaps: 10767
+
+#22 Time Taken: 1  Swaps: 10767
+
+#23 Time Taken: 1  Swaps: 10767
+
+#24 Time Taken: 2  Swaps: 10767
+
+#25 Time Taken: 1  Swaps: 10767
+
+#26 Time Taken: 1  Swaps: 10767
+
+#27 Time Taken: 1  Swaps: 10767
+
+#28 Time Taken: 0  Swaps: 10767
+
+#29 Time Taken: 1  Swaps: 10767
+
+#30 Time Taken: 1  Swaps: 10767
+
+#31 Time Taken: 2  Swaps: 10767
+
+#32 Time Taken: 0  Swaps: 10767
+
+#33 Time Taken: 1  Swaps: 10767
+
+#34 Time Taken: 1  Swaps: 10767
+
+#35 Time Taken: 8  Swaps: 10767
+
+#36 Time Taken: 0  Swaps: 10767
+
+#37 Time Taken: 1  Swaps: 10767
+
+#38 Time Taken: 1  Swaps: 10767
+
+#39 Time Taken: 0  Swaps: 10767
+

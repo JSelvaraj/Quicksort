@@ -1,8 +1,11 @@
-import java.io.File;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Quicksort {
+
+    static long swaps;
 
     public static LinkedList<Integer> sort(LinkedList<Integer> array) {
         LinkedList<Integer> less = new LinkedList<>();
@@ -10,13 +13,16 @@ public class Quicksort {
         LinkedList<Integer> equal = new LinkedList<>();
 
         if (array.size() > 1) {
-            int pivot = array.getFirst();
+            int pivot = array.getLast();
             for (int i: array) {
                 if (i < pivot) {
+                    swaps++;
                     less.add(i);
                 } else if (i == pivot) {
+                    swaps++;
                     equal.add(i);
                 } else if (i > pivot) {
+                    swaps++;
                     more.add(i);
                 }
             }
@@ -34,19 +40,37 @@ public class Quicksort {
 
         long startTime = System.currentTimeMillis();
         array = sort(array);
+        long endTime = System.currentTimeMillis();
+        return endTime - startTime;
 
 
     }
 
     public static void main (String args[]) {
 
-        File input = new File("Input.txt");
-        Scanner scanner = new Scanner(input);
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter("output.txt"));
+            for (int i = 0; i < 40; i++) {
 
-        LinkedList<Integer> linkedList = new LinkedList<>();
-        while (scanner.hasNext()) {
-            linkedList.add(scanner.nextInt());
+                    File input = new File("Input.txt");
+                    Scanner scanner = new Scanner(input);
+
+                    LinkedList<Integer> linkedList = new LinkedList<>();
+                    while (scanner.hasNext()) {
+                        linkedList.add(scanner.nextInt());
+                    }
+
+                    long timeTaken = getTime(linkedList);
+                    int time = (int) timeTaken;
+                    writer.println("#" + i + " Time Taken: " + Integer.toString(time) + "  Swaps: " + swaps);
+                    writer.println();
+                    writer.flush();
+                    swaps = 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
 
     }
 }
