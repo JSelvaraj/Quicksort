@@ -1,15 +1,16 @@
 package impl;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class NearlySorted {
 
-    private static LinkedList<Integer> readList () {
+    public static LinkedList<Integer> readList (String filepath) {
         try {
-            File input = new File("TestLists/sorted.txt");
+            File input = new File(filepath);
             Scanner scanner = new Scanner(input);
 
             LinkedList<Integer> linkedList = new LinkedList<>();
@@ -34,7 +35,7 @@ public class NearlySorted {
      * @param size the length of the linked list parameter
      * @param unsortedness the percentage unsortedness of the list required.
      */
-    private static LinkedList<Integer> nearlySort(LinkedList<Integer> linkedList, int size, double unsortedness) {
+    public static LinkedList<Integer> nearlySort(LinkedList<Integer> linkedList, int size, double unsortedness) {
         double numberOfElements = unsortedness * size;
 
         Random random = new Random();
@@ -58,15 +59,4 @@ public class NearlySorted {
         }
     }
 
-    public static void main(String args[]) {
-        double[] unsortednessValue = {0.02, 0.04, 0.06, 0.08, 0.1};
-
-        for (double i : unsortednessValue) {
-            LinkedList<Integer> linkedList = readList();
-            linkedList = nearlySort(linkedList, linkedList.size(), i);
-            int Integer = (int) (i * 100);
-            String outputFileName = "TestLists/NearlySorted" + Integer + ".txt";
-            writeList(linkedList, outputFileName);
-        }
-    }
 }

@@ -9,8 +9,7 @@ import java.util.Scanner;
 
 public class Quicksort {
 
-    ;
-    static long swaps;
+    public static long swaps;
 
     public static LinkedList<Integer> sort(LinkedList<Integer> array) {
         LinkedList<Integer> less = new LinkedList<>();
@@ -41,50 +40,23 @@ public class Quicksort {
         }
     }
 
+    public static long getSwaps() {
+        return swaps;
+    }
+
+    public static void resetSwaps() {
+        swaps = 0;
+    }
+
     public static long getTime (LinkedList<Integer> array) {
 
         long startTime = System.nanoTime();
         array = sort(array);
         long endTime = System.nanoTime();
-        return (endTime - startTime) / 1000;
+        return (endTime - startTime) / 1000000;
 
 
     }
 
-    public static void main (String args[]) {
-
-        try {
-            PrintWriter writer = new PrintWriter(new FileWriter("output.txt"));
-            for (int i = 0; i < 40; i++) {
-
-                    File input = new File("TestLists/input.txt");
-                    Scanner scanner = new Scanner(input);
-
-                    LinkedList<Integer> linkedList = new LinkedList<>();
-                    while (scanner.hasNext()) {
-                        linkedList.add(scanner.nextInt());
-                    }
-                    if (i == 0) {
-                        int[] arr = new int[linkedList.size()];
-                        for (int j = 0; j < linkedList.size(); j++) {
-                            arr[j] = linkedList.get(j);
-                        }
-                        int size = arr.length;
-                        System.out.println(LIS.LongestIncreasingSubsequenceLength(arr, size));
-                    }
-
-                    long timeTaken = getTime(linkedList);
-                    int time = (int) timeTaken;
-                    writer.println("#" + i + " Time Taken: " + Integer.toString(time) + "  Swaps: " + swaps);
-                    writer.println();
-                    writer.flush();
-                    swaps = 0;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 }
 
