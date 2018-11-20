@@ -4,37 +4,21 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
 public class GenerateList {
 
-    private static final int UPPER_BOUND = 5000;
+    private static final int UPPER_BOUND = 1000;
 
-
-    public static LinkedList<Integer> makeList(int size) {
+    public static ArrayList<Integer> makeList(int size) {
         Random random = new Random();
-        LinkedList<Integer> linkedList = new LinkedList<>();
+        ArrayList<Integer> arrayList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            linkedList.add(random.nextInt(UPPER_BOUND));
+            arrayList.add(random.nextInt(UPPER_BOUND));
         }
-        return linkedList;
+        return arrayList;
     }
-
-    public static void makeFile(LinkedList<Integer> linkedList) {
-        try {
-            File list = new File ("input.txt");
-            PrintWriter writer = new PrintWriter(new FileWriter(list),true);
-            for (int i : linkedList) {
-                writer.append(i + " ");
-
-                writer.flush();
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }

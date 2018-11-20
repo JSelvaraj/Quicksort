@@ -1,23 +1,20 @@
 package impl;
 
-import bin.LIS;
 
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.ArrayList;
+
 
 public class Quicksort {
 
-    public static long swaps;
+    private static long swaps;
 
-    public static LinkedList<Integer> sort(LinkedList<Integer> array) {
-        LinkedList<Integer> less = new LinkedList<>();
-        LinkedList<Integer> more = new LinkedList<>();
-        LinkedList<Integer> equal = new LinkedList<>();
+    public static ArrayList<Integer> sort(ArrayList<Integer> array) {
+        ArrayList<Integer> less = new ArrayList<>();
+        ArrayList<Integer> more = new ArrayList<>();
+        ArrayList<Integer> equal = new ArrayList<>();
 
         if (array.size() > 1) {
-            int pivot = array.getLast();
+            int pivot = array.get(array.size()-1);
             for (int i: array) {
                 if (i < pivot) {
                     swaps++;
@@ -40,22 +37,22 @@ public class Quicksort {
         }
     }
 
-    public static long getSwaps() {
-        return swaps;
-    }
-
-    public static void resetSwaps() {
+    public static long getTime (ArrayList<Integer> array) {
         swaps = 0;
-    }
-
-    public static long getTime (LinkedList<Integer> array) {
-
         long startTime = System.nanoTime();
         array = sort(array);
         long endTime = System.nanoTime();
         return (endTime - startTime) / 1000000;
+    }
 
+    public static long getSwaps() {
+        return swaps;
+    }
 
+    public static long getSwaps( ArrayList<Integer> arrayList) {
+        swaps = 0;
+        arrayList = sort(arrayList);
+        return swaps;
     }
 
 }
