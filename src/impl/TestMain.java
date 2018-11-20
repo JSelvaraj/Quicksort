@@ -5,17 +5,17 @@ import bin.LIS;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class TestMain {
 
-    private static final int NUMBER_OF_TESTS = 50;
+    private static final int NUMBER_OF_TESTS = 10;
 
 
     private static int listSize = 10000;
-
 
 
     public static void main(String args[]) {
@@ -38,21 +38,20 @@ public class TestMain {
         LinkedList<Integer> linkedList;
         try {
             linkedList = GenerateList.makeList(listSize);
-            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv"),true);
+            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv"), true);
 
-            int[] array =  new int[linkedList.size()];
+            int[] array = new int[linkedList.size()];
             for (int i = 0; i < linkedList.size(); i++) {
                 array[i] = linkedList.get(i);
             }
-            double sortednessRatio = ((double)LIS.LongestIncreasingSubsequenceLength(array, linkedList.size()) / linkedList.size()) * 100;
+            double sortednessRatio = ((double) LIS.LongestIncreasingSubsequenceLength(array, linkedList.size()) / linkedList.size()) * 100;
             String ratio = Double.toString(sortednessRatio);
             try {
-                ratio = ratio.substring(0,4);
+                ratio = ratio.substring(0, 4);
             } catch (Exception e) {
-                ratio = ratio.substring(0,3);
+                ratio = ratio.substring(0, 3);
             }
-            writer.println("Random Order(" + ratio + "% sorted)");
-            writer.print("Time Taken(ms):, ");
+            writer.println("Random Order(" + ratio + "% sorted)(ms):, ");
             writer.flush();
             for (int i = 0; i < NUMBER_OF_TESTS; i++) {
                 writer.print(Quicksort.getTime(linkedList) + ",");
@@ -74,9 +73,9 @@ public class TestMain {
         try {
             LinkedList<Integer> linkedList = GenerateList.makeList(listSize);
             Collections.sort(linkedList);
-            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv",true),true);
-            writer.println("Sorted List");
-            writer.print("Time Taken(ms):, ");
+            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv", true), true);
+
+            writer.print("Sorted List(ms):, ");
             writer.flush();
             for (int i = 0; i < NUMBER_OF_TESTS; i++) {
                 writer.print(Quicksort.getTime(linkedList) + ",");
@@ -97,27 +96,32 @@ public class TestMain {
 
     private static void nearlySorted() {
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv",true),true);
+            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv", true), true);
             for (double i = 0.02; i < 0.51; i += 0.02) {
-                LinkedList<Integer> linkedList = GenerateList.makeList(listSize);
-                Collections.sort(linkedList);
-                linkedList = NearlySorted.nearlySort(linkedList, linkedList.size(), i);
-                int percentage = (int) (i * 100);
-                writer.println(percentage+ "% out of order");
-                writer.print("Time Taken(ms):, ");
-                writer.flush();
-                for (int j = 0; j < NUMBER_OF_TESTS; j++) {
-                    writer.print(Quicksort.getTime(linkedList) + ",");
-                    if (j == NUMBER_OF_TESTS - 2) {
-                        Quicksort.resetSwaps();
+                ArrayList<Long> swaps = new ArrayList<>();
+                for (int k = 0; k < 5; k++) {
+                    LinkedList<Integer> linkedList = GenerateList.makeList(listSize);
+                    Collections.sort(linkedList);
+                    linkedList = NearlySorted.nearlySort(linkedList, linkedList.size(), i);
+                    int percentage = (int) (i * 100);
+                    writer.println();
+                    writer.print(percentage + "% out of order [Test List No." + (k + 1) + "](ms):, ");
+                    writer.flush();
+                    for (int j = 0; j < NUMBER_OF_TESTS; j++) {
+                        writer.print(Quicksort.getTime(linkedList) + ",");
+                        writer.flush();
+                        if (j == NUMBER_OF_TESTS - 2) {
+                            Quicksort.resetSwaps();
+                        } else if (j == NUMBER_OF_TESTS - 1) {
+                            swaps.add(Quicksort.getSwaps());
+                        }
                     }
                 }
-                writer.flush();
                 writer.println();
-                writer.println("Number of Swaps:, " + Quicksort.getSwaps());
+                writer.println("Number of Swaps:, " + swaps);
                 writer.flush();
-                writer.close();
             }
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -127,9 +131,8 @@ public class TestMain {
         try {
             LinkedList<Integer> linkedList = GenerateList.makeList(listSize);
             Collections.reverse(linkedList);
-            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv",true),true);
-            writer.println("Reverse Order List");
-            writer.print("Time Taken(ms):, ");
+            PrintWriter writer = new PrintWriter(new FileWriter("Results.csv", true), true);
+            writer.print("Reverse Order List (ms):, ");
             writer.flush();
             for (int i = 0; i < NUMBER_OF_TESTS; i++) {
                 writer.print(Quicksort.getTime(linkedList) + ",");
