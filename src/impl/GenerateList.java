@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class GenerateList {
 
-    private static final int UPPER_BOUND = 1000;
+    private static final int UPPER_BOUND = 10000;
 
     public static ArrayList<Integer> makeList(int size) {
         Random random = new Random();

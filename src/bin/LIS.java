@@ -1,5 +1,7 @@
 package bin;
 
+import java.util.ArrayList;
+
 /* A Naive Java Program for LIS Implementation */
 public class LIS
 {
@@ -41,6 +43,14 @@ public class LIS
         }
 
         return len;
+    }
+
+    public static double getSortedness(ArrayList<Integer> arrayList) {
+        int[] array = new int[arrayList.size()];
+        for (int k = 0; k < arrayList.size(); k++) {
+            array[k] = arrayList.get(k);
+        }
+        return (((double) LIS.LongestIncreasingSubsequenceLength(array,array.length))/arrayList.size());
     }
 }
 /*This code is contributed by Rajat Mishra*/

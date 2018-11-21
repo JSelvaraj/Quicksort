@@ -17,15 +17,13 @@ public class Quicksort {
             int pivot = array.get(array.size()-1);
             for (int i: array) {
                 if (i < pivot) {
-                    swaps++;
                     less.add(i);
                 } else if (i == pivot) {
-                    swaps++;
                     equal.add(i);
                 } else if (i > pivot) {
-                    swaps++;
                     more.add(i);
                 }
+                swaps++;
             }
             less = sort(less);
             more = sort(more);

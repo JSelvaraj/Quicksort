@@ -1,5 +1,7 @@
 package impl;
 
+import bin.LIS;
+import bin.MergeSort;
 import org.junit.AfterClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -8,20 +10,26 @@ import org.junit.runners.MethodSorters;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static junit.framework.TestCase.assertEquals;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class QuicksortTest {
     private static final int NUMBER_OF_TESTS = 20;
-    private static final double MAX_UNSORTEDNESS = 0.41;
+//    private static final double MAX_UNSORTEDNESS = 0.41;
 
     private static int listSize = 4000;
     private static String exchangeTimeDoc = "";
     private static String exchangeComparisonDoc = "";
     private static String removalTimeDoc = "";
     private static String removalComparisonDoc = "";
+    private static String averageRemovalDistance = "";
+    private static String comparisonsPerSortednessDoc = "";
 
     @Test
     public void A_sorted() {
@@ -59,7 +67,10 @@ public class QuicksortTest {
 
     @Test
     public void C_nearlySortedExchange2() {
-        for (int i = 10; i < listSize; i += 10) {
+        for (int i = 1; i < listSize; i += 1) {
+            if (i > 10) {
+                i += 9;
+            }
             if (i > 100) {
                 i += 90;
             }
@@ -93,10 +104,7 @@ public class QuicksortTest {
 
     @Test
     public void E_nearlySortedRemoval2() {
-        for (int i = 10; i < listSize; i += 10) {
-            if (i < listSize - 100) {
-                i += 90;
-            }
+        for (int i = 100; i < listSize; i += 100) {
             removalTimeDoc += "\n" + i + ",";
             removalComparisonDoc += "\n" + i + ",";
             for (int k = 0; k < NUMBER_OF_TESTS; k++) {
@@ -109,6 +117,74 @@ public class QuicksortTest {
         }
     }
 
+    @Test
+    public void E_nearlySortedRemoval3() {
+
+        for (int i = 100; i < listSize; i += 100) {
+            comparisonsPerSortednessDoc += "\n" + i + " (comparisons/sortedness),";
+            for (int k = 0; k < NUMBER_OF_TESTS; k++) {
+                ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
+                Collections.sort(arrayList);
+                arrayList = NearlySorted.removal(arrayList, i);
+                double sortedness  = LIS.getSortedness(arrayList);
+                sortedness = (double) Math.round(sortedness * 100)/100;
+                arrayList = Quicksort.sort(arrayList);
+                comparisonsPerSortednessDoc += Math.round(Quicksort.getSwaps() * sortedness) + ",";
+            }
+        }
+    }
+//    @Test
+//    public void E_nearlySortedRemoval3() {
+//        for (int i = 0; i < listSize; i += 100) {
+//            removalTimeDoc += "\n" + i + ",";
+//            removalComparisonDoc += "\n" + i + ",";
+//            for (int k = 0; k < NUMBER_OF_TESTS; k++) {
+//                ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
+//                Collections.sort(arrayList);
+//                arrayList = NearlySorted.removalFront(arrayList, i);
+//                removalTimeDoc += Quicksort.getTime(arrayList) + ",";
+//                removalComparisonDoc += Quicksort.getSwaps() + ",";
+//            }
+//        }
+//    }
+
+
+
+    @Test
+    public void averageRemovalDistance(){
+        for (int i = 100; i < listSize; i += 100) {
+            averageRemovalDistance += "\nRemoval Distance (" + i + " inserts),";
+            for (int j = 0; j < NUMBER_OF_TESTS; j++) {
+                ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
+                Collections.sort(arrayList);
+                arrayList = NearlySorted.removal(arrayList, i);
+                int[] array = new int[listSize];
+                for (int k = 0; k < listSize; k++) {
+                    array[k] = arrayList.get(k);
+                }
+                double sortedness = (((double) LIS.LongestIncreasingSubsequenceLength(array,array.length))/listSize) * 100;
+                averageRemovalDistance += sortedness + ",";
+            }
+        }
+    }
+
+    @Test
+    public void averageRemovalDistanceFront(){
+        for (int i = 100; i < listSize; i += 100) {
+            averageRemovalDistance += "\nRemoval Distance (" + i + " inserts),";
+            for (int j = 0; j < 50; j++) {
+                ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
+                Collections.sort(arrayList);
+                arrayList = NearlySorted.removalFront(arrayList, i);
+                int[] array = new int[listSize];
+                for (int k = 0; k < listSize; k++) {
+                    array[k] = arrayList.get(k);
+                }
+                double sortedness = (((double) LIS.LongestIncreasingSubsequenceLength(array,array.length))/listSize) * 100;
+                averageRemovalDistance += sortedness + ",";
+            }
+        }
+    }
 
     @Test
     public void F_randomOrder() {
@@ -134,6 +210,7 @@ public class QuicksortTest {
         removalComparisonDoc += "\nReverse Sorted List, ";
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
             ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
+            Collections.sort(arrayList);
             Collections.reverse(arrayList);
             long time = Quicksort.getTime(arrayList);
             exchangeTimeDoc += time + ",";
@@ -144,27 +221,32 @@ public class QuicksortTest {
     }
 
 
-
-
-
-
     @AfterClass
     public static void print() {
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter("ExchangeTime.csv"),true);
-            PrintWriter writer1 = new PrintWriter(new FileWriter("ExchangeComp.csv"),true);
-            PrintWriter writer2 = new PrintWriter(new FileWriter("RemovalTime.csv"),true);
-            PrintWriter writer3 = new PrintWriter(new FileWriter("RemovalComp.csv"),true);
-            writer.println(exchangeTimeDoc);
-            writer1.println(exchangeComparisonDoc);
-            writer2.println(removalTimeDoc);
-            writer3.println(removalComparisonDoc);
-            writer1.flush();
-            writer.flush();
-            writer1.close();
-            writer.close();
-            writer2.close();
-            writer3.close();
+//            PrintWriter writer = new PrintWriter(new FileWriter("ExchangeTime.csv"), true);
+//            PrintWriter writer1 = new PrintWriter(new FileWriter("ExchangeComp.csv"), true);
+//            PrintWriter writer2 = new PrintWriter(new FileWriter("RemovalTime.csv"), true);
+//            PrintWriter writer3 = new PrintWriter(new FileWriter("RemovalComp.csv"), true);
+//            PrintWriter writer4 = new PrintWriter(new FileWriter("RemovalPercent.csv"), true);
+//            writer.println(exchangeTimeDoc);
+//            writer1.println(exchangeComparisonDoc);
+//            writer2.println(removalTimeDoc);
+//            writer3.println(removalComparisonDoc);
+//            writer4.println(averageRemovalDistance);
+//            writer4.flush();
+//            writer1.flush();
+//            writer.flush();
+//            writer1.close();
+//            writer.close();
+//            writer2.close();
+//            writer3.close();
+//            writer4.close();
+            PrintWriter writer5 = new PrintWriter(new FileWriter("CompBySort.csv"), true);
+            writer5.println(comparisonsPerSortednessDoc);
+            writer5.flush();
+            writer5.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
