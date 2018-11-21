@@ -11,13 +11,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class QuicksortTest {
     private static final int NUMBER_OF_TESTS = 20;
     private static final double MAX_UNSORTEDNESS = 0.41;
 
-    private static int listSize = 10000;
+    private static int listSize = 4000;
     private static String exchangeTimeDoc = "";
     private static String exchangeComparisonDoc = "";
     private static String removalTimeDoc = "";
@@ -25,10 +25,10 @@ public class QuicksortTest {
 
     @Test
     public void A_sorted() {
-        exchangeTimeDoc += "Sorted List (ms):, ";
-        exchangeComparisonDoc += "Sorted List (ms):, ";
-        removalTimeDoc += "Sorted List (ms):, ";
-        removalComparisonDoc += "Sorted List (ms):, ";
+        exchangeTimeDoc += "Sorted List, ";
+        exchangeComparisonDoc += "Sorted List, ";
+        removalTimeDoc += "Sorted List, ";
+        removalComparisonDoc += "Sorted List, ";
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
             ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
             Collections.sort(arrayList);
@@ -59,10 +59,12 @@ public class QuicksortTest {
 
     @Test
     public void C_nearlySortedExchange2() {
-        for (int i = 100; i < listSize; i += 100) {
-
-            exchangeTimeDoc += "\n" + i + " Exchange(ms):, ";
-            exchangeComparisonDoc += "\n" + i + " Exchange(comparisons):, ";
+        for (int i = 10; i < listSize; i += 10) {
+            if (i > 100) {
+                i += 90;
+            }
+            exchangeTimeDoc += "\n" + i + ",";
+            exchangeComparisonDoc += "\n" + i + " ,";
             for (int k = 0; k < NUMBER_OF_TESTS; k++) {
                 ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
                 Collections.sort(arrayList);
@@ -91,16 +93,16 @@ public class QuicksortTest {
 
     @Test
     public void E_nearlySortedRemoval2() {
-        for (int i = 100; i < listSize; i += 100) {
-            removalTimeDoc += "\n" + i + " Removals(ms):, ";
-            removalComparisonDoc += "\n" + i + " Removals(comparisons) :, ";
+        for (int i = 10; i < listSize; i += 10) {
+            if (i < listSize - 100) {
+                i += 90;
+            }
+            removalTimeDoc += "\n" + i + ",";
+            removalComparisonDoc += "\n" + i + ",";
             for (int k = 0; k < NUMBER_OF_TESTS; k++) {
                 ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
                 Collections.sort(arrayList);
                 arrayList = NearlySorted.removal(arrayList, i);
-                if (i < 700 && k == 0) {
-                    System.out.println(arrayList);
-                }
                 removalTimeDoc += Quicksort.getTime(arrayList) + ",";
                 removalComparisonDoc += Quicksort.getSwaps() + ",";
             }
@@ -110,31 +112,33 @@ public class QuicksortTest {
 
     @Test
     public void F_randomOrder() {
-        exchangeTimeDoc += "\nRandom Order:, ";
+        exchangeTimeDoc += "\nRandom Order, ";
         exchangeComparisonDoc += "\nRandom Order:, ";
         removalTimeDoc += "\nRandom Order:, ";
-        removalComparisonDoc += "\nRandom Order:, ";
+        removalComparisonDoc += "\nRandom Order, ";
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
             ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
-            exchangeTimeDoc += Quicksort.getTime(arrayList) + ",";
+            long time = Quicksort.getTime(arrayList);
+            exchangeTimeDoc += time + ",";
             exchangeComparisonDoc += Quicksort.getSwaps() + ",";
-            removalTimeDoc += Quicksort.getTime(arrayList) + ",";
+            removalTimeDoc += time + ",";
             removalComparisonDoc += Quicksort.getSwaps() + ",";
         }
     }
 
     @Test
     public void G_reverseOrder() {
-        exchangeTimeDoc += "\nReverse Sorted List (ms):, ";
-        exchangeComparisonDoc += "\nReverse Sorted List (ms):, ";
-        removalTimeDoc += "\nReverse Sorted List (ms):, ";
-        removalComparisonDoc += "\nReverse Sorted List (ms):, ";
+        exchangeTimeDoc += "\nReverse Sorted List, ";
+        exchangeComparisonDoc += "\nReverse Sorted List, ";
+        removalTimeDoc += "\nReverse Sorted List, ";
+        removalComparisonDoc += "\nReverse Sorted List, ";
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
             ArrayList<Integer> arrayList = GenerateList.makeList(listSize);
             Collections.reverse(arrayList);
-            exchangeTimeDoc += Quicksort.getTime(arrayList) + ",";
+            long time = Quicksort.getTime(arrayList);
+            exchangeTimeDoc += time + ",";
             exchangeComparisonDoc += Quicksort.getSwaps() + ",";
-            removalTimeDoc += Quicksort.getTime(arrayList) + ",";
+            removalTimeDoc += time + ",";
             removalComparisonDoc += Quicksort.getSwaps() + ",";
         }
     }
